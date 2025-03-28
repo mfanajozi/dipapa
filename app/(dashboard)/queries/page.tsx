@@ -1,133 +1,59 @@
+'use client'
+import { useEffect, useState } from "react"
 import { Suspense } from "react"
 import Link from "next/link"
+import { PlusCircle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table"
 import { Skeleton } from "@/components/ui/skeleton"
-import { StatusBadge } from "@/components/ui/status-badge"
-import { formatDate } from "@/lib/utils"
 
-// Mock data - would normally be fetched from your database
+// Mock data for queries
 const mockQueries = [
   {
     id: "q1",
-    user_id: "u1",
-    unique_id: "QRY-001",
-    name: "John Smith",
-    building: "North Tower",
-    room_number: "A101",
-    priority: "High",
-    type: "Building",
-    details: "Water leak in bathroom",
-    status: "Pending",
-    created_at: "2023-03-15T10:30:00Z",
-    updated_at: "2023-03-15T10:30:00Z",
-    reference: "REF-001",
+    title: "Query about user data",
+    description: "Need clarification on user data retrieval.",
+    status: "Open",
   },
   {
     id: "q2",
-    user_id: "u2",
-    unique_id: "QRY-002",
-    name: "Sarah Johnson",
-    building: "South Tower",
-    room_number: "B202",
-    priority: "Medium",
-    type: "General",
-    details: "Wi-Fi connectivity issues",
-    status: "Processing",
-    created_at: "2023-03-14T14:45:00Z",
-    updated_at: "2023-03-15T09:20:00Z",
-    reference: "REF-002",
+    title: "Issue with API response",
+    description: "The API is returning an error for user details.",
+    status: "In Progress",
   },
   {
     id: "q3",
-    user_id: "u3",
-    unique_id: "QRY-003",
-    name: "Michael Brown",
-    building: "East Tower",
-    room_number: "C303",
-    priority: "Low",
-    type: "Password Reset",
-    details: "Unable to login to student portal",
+    title: "Feature request for notifications",
+    description: "Request to add notifications for user actions.",
     status: "Closed",
-    created_at: "2023-03-13T09:15:00Z",
-    updated_at: "2023-03-14T11:30:00Z",
-    reference: "REF-003",
   },
   {
     id: "q4",
-    user_id: "u4",
-    unique_id: "QRY-004",
-    name: "Emily Wilson",
-    building: "West Tower",
-    room_number: "D404",
-    priority: "High",
-    type: "Building",
-    details: "No electricity in room",
-    status: "Processing",
-    created_at: "2023-03-12T16:20:00Z",
-    updated_at: "2023-03-13T08:45:00Z",
-    reference: "REF-004",
+    title: "Bug in user profile update",
+    description: "User profile updates are not saving correctly.",
+    status: "Open",
   },
   {
     id: "q5",
-    user_id: "u5",
-    unique_id: "QRY-005",
-    name: "David Lee",
-    building: "North Tower",
-    room_number: "E505",
-    priority: "Medium",
-    type: "General",
-    details: "Room key not working",
-    status: "Pending",
-    created_at: "2023-03-11T11:10:00Z",
-    updated_at: "2023-03-11T11:10:00Z",
-    reference: "REF-005",
+    title: "Feedback on dashboard layout",
+    description: "Suggestions for improving the dashboard UI.",
+    status: "In Progress",
   },
 ]
 
 const columns = [
   {
-    accessorKey: "unique_id",
-    header: "ID",
+    accessorKey: "title",
+    header: "Title",
   },
   {
-    accessorKey: "name",
-    header: "Name",
-  },
-  {
-    accessorKey: "type",
-    header: "Type",
-  },
-  {
-    accessorKey: "building",
-    header: "Building",
-  },
-  {
-    accessorKey: "priority",
-    header: "Priority",
-    cell: ({ row }: any) => {
-      const priority = row.getValue("priority")
-      const colorMap: Record<string, string> = {
-        High: "text-red-600 font-medium",
-        Medium: "text-amber-600",
-        Low: "text-green-600",
-      }
-
-      return <span className={colorMap[priority] || ""}>{priority}</span>
-    },
+    accessorKey: "description",
+    header: "Description",
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }: any) => {
-      return <StatusBadge status={row.getValue("status")} />
-    },
-  },
-  {
-    accessorKey: "created_at",
-    header: "Created",
-    cell: ({ row }: any) => formatDate(row.getValue("created_at")),
   },
   {
     id: "actions",
@@ -145,14 +71,6 @@ const columns = [
   },
 ]
 
-const statusOptions = [
-  { label: "Pending", value: "Pending" },
-  { label: "Processing", value: "Processing" },
-  { label: "Approved", value: "Approved" },
-  { label: "Rejected", value: "Rejected" },
-  { label: "Closed", value: "Closed" },
-]
-
 function QueriesTableSkeleton() {
   return (
     <div className="space-y-4">
@@ -166,13 +84,9 @@ function QueriesTableSkeleton() {
           .fill(0)
           .map((_, i) => (
             <div key={i} className="flex items-center h-16 px-4 border-b last:border-0">
-              <Skeleton className="h-4 w-16 mr-4" />
-              <Skeleton className="h-4 w-24 mr-4" />
-              <Skeleton className="h-4 w-24 mr-4" />
-              <Skeleton className="h-4 w-24 mr-4" />
-              <Skeleton className="h-4 w-16 mr-4" />
-              <Skeleton className="h-6 w-20 mr-4 rounded-full" />
-              <Skeleton className="h-4 w-24 mr-4" />
+              <Skeleton className="h-4 w-48" />
+              <Skeleton className="h-4 w-64 ml-4" />
+              <Skeleton className="h-4 w-32 ml-4" />
               <Skeleton className="h-8 w-16 ml-auto" />
             </div>
           ))}
@@ -182,35 +96,86 @@ function QueriesTableSkeleton() {
 }
 
 export default function QueriesPage() {
+  const [queries, setQueries] = useState([]);
+
+  useEffect(() => {
+    const fetchQueries = async () => {
+      const response = await fetch('/api/queries/all'); // Adjusted the API endpoint to fetch all queries
+      const data = await response.json();
+      // Sort queries: New status first, then Closed
+      const sortedQueries = data.sort((a: { status: string }, b: { status: string }) => {
+        if (a.status === "New" && b.status !== "New") return -1;
+        if (a.status !== "New" && b.status === "New") return 1;
+        return 0;
+      });
+      setQueries(sortedQueries);
+    };
+
+    fetchQueries();
+  }, []);
+
+  const columns = [
+    {
+      accessorKey: "title",
+      header: "Title",
+    },
+    {
+      accessorKey: "description",
+      header: "Description",
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+    },
+    {
+      accessorKey: "notes",
+      header: "Notes",
+      cell: ({ row }: any) => {
+        const query = row.original;
+        return (
+          <div>
+            <textarea
+              placeholder="Add a note..."
+              onBlur={(e) => {
+                // Logic to save the note with user info and timestamp
+                const note = {
+                  user: "Admin", // Replace with actual user info
+                  timestamp: new Date().toISOString(),
+                  content: e.target.value,
+                };
+                // Save note logic here
+              }}
+            />
+          </div>
+        );
+      },
+    },
+    {
+      id: "actions",
+      cell: ({ row }: any) => {
+        const query = row.original;
+
+        return (
+          <div className="flex justify-end">
+            <Button asChild variant="ghost" size="sm">
+              <Link href={`/queries/${query.id}`}>View</Link>
+            </Button>
+          </div>
+        );
+      },
+    },
+  ];
+
   return (
-    <div className="flex flex-col gap-6 pb-8">
+    <div className="flex flex-col gap-6 pb-8 px-6">
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold tracking-tight">Queries</h1>
-        <p className="text-muted-foreground">Manage and respond to user queries.</p>
-      </div>
-
-      <div className="flex justify-between">
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm">
-            Export
-          </Button>
-          <Button variant="outline" size="sm">
-            Filter
-          </Button>
-        </div>
+        <p className="text-muted-foreground">Manage queries and feedback.</p>
       </div>
 
       <Suspense fallback={<QueriesTableSkeleton />}>
-        <DataTable
-          columns={columns}
-          data={mockQueries}
-          searchKey="name"
-          searchPlaceholder="Search by name..."
-          filterKey="status"
-          filterOptions={statusOptions}
-        />
+        <DataTable columns={columns} data={queries} searchKey="title" searchPlaceholder="Search by title..." />
       </Suspense>
     </div>
   )
 }
-

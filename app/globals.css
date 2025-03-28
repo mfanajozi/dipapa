@@ -5,9 +5,9 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222.2 84% 14.9%; /* Changed to darker color */
 
-    --card: 0 0% 100%;
+    --card: 0 0% 100%; /* Changed to white */
     --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
@@ -37,10 +37,10 @@
 
   .dark {
     --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --foreground: 210 40% 88%; /* Changed to darker color */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%; /* Changed to white */
+    --card-foreground: 222.2 84% 4.9%;
 
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
@@ -122,4 +122,3 @@
 .status-badge.closed {
   @apply bg-gray-100 text-gray-800;
 }
-

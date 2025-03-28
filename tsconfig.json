@@ -8,8 +8,8 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
+    "moduleResolution": "node", // Updated to 'node'
+    "resolveJsonModule": true, // This will work with 'node' module resolution
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
@@ -25,4 +25,3 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
-
